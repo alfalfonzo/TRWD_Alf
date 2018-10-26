@@ -1,0 +1,107 @@
+---
+title: "Trawind"
+output: html_notebook
+---
+Following Wickham and Grolemund (2017), getting back to R
+
+Short Cut Reminder: 
+
+1) *Insert Chunk*: -> *Option+Cmd+=I*
+
+2) *Preview* -> *Shift+Cmd+K*
+
+3) *Running chunck* -> *Shift+Cmd+Enter*
+
+4) *Clear Console* -> *Opt+ * 
+
+Install packages recommended by Wickham and Grolemund (2017)
+```{r}
+install.packages("tidyverse", dependencies = TRUE)
+versioninstall.packages("rlang", dependencies = TRUE)
+install.packages(c("nycflights13", "gapminder", "Lahman"))
+install.packages("chinese.misc", dependencies = TRUE)
+install.packages("readxl", dependencies = TRUE)
+
+```
+
+Having the non-exit issue, trying this
+```{r}
+install.packages("tidyverse", repos = "http://cran.stat.ucla.edu/", dependencies = TRUE)
+```
+
+
+
+
+
+Reset the environment 
+```{r}
+rm(list=ls())
+```
+
+Now remind myself some of R's basic functions
+
+First, load packages:
+```{r}
+library(rlang)
+library(tidyverse)
+library(chinese.misc)
+library(readxl)
+```
+
+```{r}
+mpg
+ggplot(data = mpg) + geom_point(mapping = aes(x = class, y = hwy, color = class))
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = class, alpha = cyl))
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_grid(drv ~ cyl)
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_grid(drv ~ .)
+```
+
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = mpg) + geom_smooth(mapping = aes(x = displ, y = hwy)) + geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(color = class)) +
+  geom_smooth(
+    data = filter(mpg, class == "subcompact"),
+    se = FALSE
+  )
+```
+
+ggplot for bar charts
+
+Now try something on the Trawind dataset
+
+After cleaning the data, reload them into
+```{r}
+xinfeng_alf_cleaned <- read_excel("信风船价数据收集_cleaned.xlsx")
+save(xinfeng_alf_cleaned, file = "Cleaned_Trawind_Data_V0.RData")
+
+colnames(xinfeng_alf_cleaned)
+colnames(xinfeng_alf_cleaned) <- c("dta_collection_time", "contract_time", "ship_time", 
+                                   "bid_time", "vsl_company", "vsl_name", 
+                                   "vsl_type", "customer", "total_weight", 
+                                   "cargo_type", "start_port", "p", 
+                                   "bid_port", "port_type", "port_type_value", 
+                                   "port_price_diff", "distance", "customer_quote_time", 
+                                   "actual_income", "actual_cost", "li_huo_cost", 
+                                   "bang_dian_cost", "chao_qi_cost", "kau_gang_cost", 
+                                   "same_time_competition", "other_factor", "NA"
+                                   )
+xinfeng_alf_cleaned_eng <- xinfeng_alf_cleaned
+save(xinfeng_alf_cleaned_eng, file = "Cleaned_Trawind_Data_Eng_V0.RData")
+```
+
+
+
+
+
+
+
+
+
+
+
+
